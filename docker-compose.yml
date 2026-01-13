@@ -2,20 +2,21 @@ version: "3.8"
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: api/Dockerfile
-    ports:
-      - "8080:80"
-    environment:
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASS=root
-      - DB_NAME=blangkis_db
-    depends_on:
-      - db
-    networks:
-      - app-network
+  build: .
+  container_name: blangkis_web
+  ports:
+    - "8080:80"
+  volumes:
+    - ./:/var/www/html
+  environment:
+    DB_HOST: db
+    DB_USER: root
+    DB_PASS: root
+    DB_NAME: blangkis_db
+  depends_on:
+    - db
+  networks:
+    - app-network
 
   db:
     image: mysql:8.0
