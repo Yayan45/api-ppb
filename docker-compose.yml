@@ -2,28 +2,28 @@ version: "3.8"
 
 services:
   web:
-  build: .
-  container_name: blangkis_web
-  ports:
-    - "8080:80"
-  volumes:
-    - ./:/var/www/html
-  environment:
-    DB_HOST: db
-    DB_USER: root
-    DB_PASS: root
-    DB_NAME: blangkis_db
-  depends_on:
-    - db
-  networks:
-    - app-network
+    build: .
+    container_name: blangkis_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: blangkis_db
+    depends_on:
+      - db
+    networks:
+      - app-network
 
   db:
     image: mysql:8.0
     container_name: blangkis_db
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=blangkis_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blangkis_db
     volumes:
       - ./blangkis.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
@@ -36,9 +36,9 @@ services:
     ports:
       - "8081:80"
     environment:
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=root
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
     depends_on:
       - db
     networks:
