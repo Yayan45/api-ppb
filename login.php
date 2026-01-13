@@ -1,7 +1,6 @@
 <?php
-// MATIKAN SEMUA ERROR HTML
-error_reporting(0);
-ini_set('display_errors', 0);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -15,14 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 include "config.php";
 
-if (!isset($koneksi) || !$koneksi) {
-    echo json_encode([
-        "success" => false,
-        "error" => "Koneksi database gagal"
-    ]);
-    exit;
-}
-
 $username = trim($_POST['username'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
@@ -35,16 +26,16 @@ if ($username === '' || $password === '') {
 }
 
 $stmt = $koneksi->prepare(
-    "SELECT id, username, email, role 
-     FROM user 
-     WHERE username = ? AND password = ? 
+    "SELECT id, username, email, role
+     FROM `user`
+     WHERE username = ? AND password = ?
      LIMIT 1"
 );
 
 if (!$stmt) {
     echo json_encode([
         "success" => false,
-        "error" => "Prepare gagal"
+        "error" => $koneksi->error
     ]);
     exit;
 }

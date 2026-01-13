@@ -1,4 +1,14 @@
 <?php
-$koneksi = new mysqli("100.121.188.107", "root", "", "blangkis_db");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+$koneksi = new mysqli(
+    getenv("DB_HOST"), // db
+    getenv("DB_USER"), // root
+    getenv("DB_PASS"), // root
+    getenv("DB_NAME")  // blangkis_db
+);
 
+if ($koneksi->connect_error) {
+    die("DB ERROR: " . $koneksi->connect_error);
+}
